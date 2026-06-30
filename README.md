@@ -85,10 +85,15 @@ python -m pytest test_flow.py
 Traditional hospital management systems are **static and passive**—they merely log resource levels.
 
 MedTrack introduces a **closed-loop automation cycle**:
-```
-[Outbreak Surge] ➡️ [Outbreak Agent Flags Zone] ➡️ [Orchestrator Checks Capacities]
-                                                               ⬇️
-[Bookings Redirected] ⬅️ [Redirection Rule Active] ⬅️ [Inventory Transferred (Beds/Vents)]
+
+```mermaid
+graph TD
+    A[Outbreak Surge] --> B[Outbreak Agent Flags Zone]
+    B --> C[Orchestrator Checks Capacities]
+    C --> D[Inventory Transferred: Beds/Vents]
+    D --> E[Redirection Rule Active]
+    E --> F[Bookings Redirected]
+    F --> A
 ```
 This closed loop immediately balances the load:
 1. It physically boosts supply at the outbreak clinic by moving resources.

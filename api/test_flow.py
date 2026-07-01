@@ -17,6 +17,8 @@ from agents.orchestrator import OrchestratorAgent
 @pytest.fixture(scope="module", autouse=True)
 def setup_database():
     # Force use of a test DB or reset the existing DB
+    from database import Base, engine
+    Base.metadata.drop_all(bind=engine)
     init_db()
     db = SessionLocal()
     # Reset simulation states before tests

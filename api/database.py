@@ -1,14 +1,25 @@
 import os
 import json
+import shutil
 from datetime import datetime, timedelta
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, Float, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
-DATABASE_URL = "sqlite:///C:/Users/Dell/DAY 2 AGENTIC AI/backend/medtrack.db"
+# Determine database path
+if os.environ.get("VERCEL"):
+    db_dir = "/tmp"
+    db_path = os.path.join(db_dir, "medtrack.db")
+    # If the database does not exist in /tmp, copy the template from our package path
+    if not os.path.exists(db_path):
+        template_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "medtrack.db")
+        if os.path.exists(template_path):
+            shutil.copy2(template_path, db_path)
+else:
+    db_dir = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(db_dir, "medtrack.db")
 
-# Create directories if they do not exist
-os.makedirs("C:/Users/Dell/DAY 2 AGENTIC AI/backend", exist_ok=True)
+DATABASE_URL = f"sqlite:///{db_path}"
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

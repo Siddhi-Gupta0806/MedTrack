@@ -1,0 +1,4 @@
+fastapi==0.115.6
+sqlalchemy==2.0.28
+google-genai==0.1.1
+pydantic==2.6.4

@@ -44,13 +44,13 @@ When a localized outbreak is detected, the **Orchestrator Agent** takes automati
 Make sure you have **Python 3.13+** and **Node.js v20+** installed.
 
 ### 2. Run the Backend API
-Navigate to the `backend` folder, install requirements, and launch the Uvicorn server:
+Navigate to the `api` folder, install requirements, and launch the Uvicorn server:
 ```powershell
-# Navigate to backend
-cd backend
+# Navigate to api
+cd api
 
 # Install dependencies (if not already installed)
-pip install fastapi uvicorn sqlalchemy pytest requests python-dotenv google-genai
+pip install -r requirements.txt
 
 # Run the server
 python -m uvicorn main:app --reload --host 127.0.0.1 --port 8000
@@ -74,9 +74,35 @@ Open `http://localhost:5173` in your browser.
 ### 4. Run Automated Verification Tests
 You can run the end-to-end multi-agent integration test using `pytest`:
 ```powershell
-cd backend
+cd api
 python -m pytest test_flow.py
 ```
+
+---
+
+## ☁️ How to Deploy to Vercel
+
+This repository is pre-configured for direct full-stack deployment on Vercel (Frontend + FastAPI backend).
+
+### 1. Configure Vercel Root Directory (Crucial)
+Ensure that your Vercel project's **Root Directory** settings are set to the **repository root** (empty or `.`), **NOT** to the `frontend` directory. 
+1. Open the Vercel Dashboard, go to **Settings** > **General**.
+2. Under **Root Directory**, make sure it is empty or set to `.`.
+3. Save the settings.
+
+### 2. Trigger Redeployment
+* **Automatic deployment**: Simply commit and push your changes to your linked GitHub repository. Vercel will automatically build the frontend and backend.
+* **Manual deployment via Vercel CLI**:
+  ```powershell
+  # Authenticate CLI
+  npx vercel login
+  
+  # Link local workspace to your Vercel project
+  npx vercel link
+  
+  # Deploy to production
+  npx vercel --prod
+  ```
 
 ---
 
